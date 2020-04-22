@@ -13,6 +13,7 @@ public class Gantt extends PApplet {
 	float border;
 	float leftBorder;
 	float xGap;
+	float yGap;
 
 	public void settings() {
 		size(800, 600);
@@ -21,6 +22,7 @@ public class Gantt extends PApplet {
 		leftBorder = width * 0.18f;
 
 		xGap = (width - (leftBorder + border)) / 30f;
+		yGap = height * 0.06f;
 	}
 
 	public void loadTasks() {
@@ -52,6 +54,16 @@ public class Gantt extends PApplet {
 			line(x, border, x, height - border);
 			text(i, x - 4, border - 10);
 			x += xGap;
+		}
+		float y = border + 20;
+		for(int i = 0; i < tasks.size(); i++) {
+			Task t = tasks.get(i);
+
+			float startx = map(t.getStart(),1,31,leftBorder, width - border);
+			float endx = map(t.getEnd(),1,31,leftBorder, width - border);
+			float w = endx - startx;
+			rect(startx, y, w, yGap);
+			y += yGap + 5;
 		}
 	}
 	
