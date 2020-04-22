@@ -45,6 +45,25 @@ public class Gantt extends PApplet {
 
 	public void mouseDragged() {
 		println("Mouse dragged");
+		
+		for(int i = 0; i < tasks.size(); i++) {
+			Task t = tasks.get(i);
+
+			float y = border + (i * (yGap + 5f)) + 20f;
+			float startx = map(t.getStart(),1,31,leftBorder, width - border);
+			float endx = map(t.getEnd(),1,31,leftBorder, width - border);
+			if(mouseX > startx && mouseX < startx + 20 && mouseY > y && mouseY < y + yGap) {
+				int starting = t.getStart();
+				t.setStart(starting - 1);
+				break;
+			}
+			if(mouseX < endx && mouseX > endx - 20 && mouseY > y && mouseY < y + yGap) {
+				int ending = t.getEnd();
+				t.setEnd(ending + 1);
+				break;
+			}
+			System.out.println(y);
+		}
 	}
 
 	void displayTasks() {
