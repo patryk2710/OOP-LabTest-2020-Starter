@@ -14,6 +14,8 @@ public class Gantt extends PApplet {
 	float leftBorder;
 	float xGap;
 	float yGap;
+	int mouseXval;
+	int mouseYval;
 
 	public void settings() {
 		size(800, 600);
@@ -41,6 +43,23 @@ public class Gantt extends PApplet {
 
 	public void mousePressed() {
 		println("Mouse pressed");
+		for(int i = 0; i < tasks.size(); i++) {
+			Task t = tasks.get(i);
+
+			//variables
+			float y = border + (i * (yGap + 5f)) + 20f;
+			float startx = map(t.getStart(),1,31,leftBorder, width - border);
+			float endx = map(t.getEnd(),1,31,leftBorder, width - border);
+			//locating mouse
+			if(mouseX > startx && mouseX < startx + 20 && mouseY > y && mouseY < y + yGap) {
+				mouseXval = mouseX;
+				mouseYval = mouseY;
+			}
+			if(mouseX < endx && mouseX > endx - 20 && mouseY > y && mouseY < y + yGap) {
+				mouseXval = mouseX;
+				mouseYval = mouseY;
+			}
+		}
 	}
 
 	public void mouseDragged() {
@@ -49,20 +68,48 @@ public class Gantt extends PApplet {
 		for(int i = 0; i < tasks.size(); i++) {
 			Task t = tasks.get(i);
 
+			//variables
 			float y = border + (i * (yGap + 5f)) + 20f;
 			float startx = map(t.getStart(),1,31,leftBorder, width - border);
 			float endx = map(t.getEnd(),1,31,leftBorder, width - border);
-			if(mouseX > startx && mouseX < startx + 20 && mouseY > y && mouseY < y + yGap) {
-				int starting = t.getStart();
-				t.setStart(starting - 1);
-				break;
+
+			//locating mouse, altering arraylist
+			if(mouseX > startx && mouseX < startx + 20 && mouseY > y && mouseY < y + yGap ) {
+				if(mouseXval > mouseX) {
+					if(t.getStart() < 2 || (t.getEnd() - t.getStart() ) == 1 ) {
+						break;
+					}
+					int starting = t.getStart();
+					t.setStart(starting - 1);
+					break;
+				}
+				if(startx < mouseX && mouseXval < mouseX) {
+					if((t.getEnd() - t.getStart()) == 1 ) {
+						break;
+					}
+					int starting = t.getStart();
+					t.setStart(starting + 1);
+					break;
+				}
 			}
 			if(mouseX < endx && mouseX > endx - 20 && mouseY > y && mouseY < y + yGap) {
-				int ending = t.getEnd();
-				t.setEnd(ending + 1);
-				break;
+				if(mouseXval > mouseX) {
+					if((t.getEnd() - t.getStart()) == 1) {
+						break;
+					}
+					int ending = t.getEnd();
+					t.setEnd(ending - 1);
+					break;
+				}
+				if(mouseXval < mouseX) {
+					if(t.getEnd() > 29) {
+						break;
+					}
+					int ending = t.getEnd();
+					t.setEnd(ending + 1);
+					break;
+				}
 			}
-			System.out.println(y);
 		}
 	}
 
