@@ -48,21 +48,32 @@ public class Gantt extends PApplet {
 	}
 
 	void displayTasks() {
+		//variables required
 		float x = leftBorder;
+		float y = border + 20;
+
+		//Drawing grid
 		stroke(255);
 		for(int i = 1; i < 31; i ++) {
 			line(x, border, x, height - border);
+			fill(255);
 			text(i, x - 4, border - 10);
 			x += xGap;
 		}
-		float y = border + 20;
+		
+		//Drawing rectangles
+		noStroke();
 		for(int i = 0; i < tasks.size(); i++) {
 			Task t = tasks.get(i);
 
+			float colour = map(i, 0, tasks.size(), 0, 255);
 			float startx = map(t.getStart(),1,31,leftBorder, width - border);
 			float endx = map(t.getEnd(),1,31,leftBorder, width - border);
 			float w = endx - startx;
-			rect(startx, y, w, yGap);
+			fill(colour, 255, 255);
+			rect(startx, y, w, yGap, 5);
+			fill(255);
+			text(t.getTaskName(), border, y + (yGap / 2));
 			y += yGap + 5;
 		}
 	}
@@ -70,7 +81,7 @@ public class Gantt extends PApplet {
 	public void setup() {
 		loadTasks();
 		printTasks();
-		colorMode(HSB);
+		colorMode(HSB, 255, 255, 255);
 	}
 	
 	public void draw() {			
