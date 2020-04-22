@@ -3,26 +3,26 @@ package ie.tudublin;
 import processing.data.TableRow;
 
 public class Task {
-    private String name;
+    private String taskName;
     private int start;
     private int end;
 
-    public Task(String name, int start, int end) {
-        this.name = name;
+    public Task(String taskName, int start, int end) {
+        this.taskName = taskName;
         this.start = start;
         this.end = end;
     }
 
     public Task(TableRow tr) {
-        this(tr.getString("Name"), tr.getFloat("Price"));
+        this(tr.getString("Task"), tr.getInt("Start"), tr.getInt("End"));
     }
 
-    public String getName() {
-        return name;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public int getStart() {
@@ -43,8 +43,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task [end=" + end + ", name=" + name + ", start=" + start + "]";
+        return "Task [end=" + end + ", start=" + start + ", taskName=" + taskName + "]";
     }
 
-    
 }
